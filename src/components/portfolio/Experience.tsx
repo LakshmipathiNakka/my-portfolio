@@ -33,9 +33,9 @@ export const Experience = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="experience" className="py-32 relative" ref={ref}>
+    <section id="experience" className="py-28 relative" ref={ref}>
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/20 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/30 to-transparent pointer-events-none" />
       
       <div className="section-container relative z-10">
         <motion.p
@@ -78,15 +78,15 @@ export const Experience = () => {
                 </div>
 
                 <motion.div
-                  whileHover={{ x: 6 }}
-                  transition={{ duration: 0.25 }}
+                  whileHover={{ x: 4 }}
+                  transition={{ duration: 0.2 }}
                   className={cn(
                     "glass-card rounded-2xl p-6 lg:p-8 transition-all duration-300",
                     hoveredIndex === index && "border-accent/30 shadow-glow"
                   )}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-3">
-                    <h3 className="text-xl lg:text-2xl font-bold text-foreground">
+                    <h3 className="text-xl font-bold text-foreground">
                       {exp.role}
                     </h3>
                     {exp.current && (

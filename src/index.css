@@ -110,7 +110,7 @@
   }
 
   .section-heading {
-    @apply text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-12;
+    @apply text-sm font-medium uppercase tracking-wider text-accent mb-8;
   }
 
   .gradient-text {
@@ -123,16 +123,11 @@
 
   .link-underline::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-px bg-accent origin-left transition-all duration-300 ease-out;
+    @apply absolute bottom-0 left-0 w-0 h-px bg-accent transition-all duration-300;
   }
 
   .link-underline:hover::after {
     @apply w-full;
-  }
-  
-  /* Focus states for accessibility */
-  .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 
   /* Glassmorphism card */
