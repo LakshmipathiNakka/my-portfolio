@@ -34,9 +34,9 @@ export const About = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-28 relative" ref={ref}>
+    <section id="about" className="py-32 relative" ref={ref}>
       {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/30 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/20 to-transparent pointer-events-none" />
       
       <div className="section-container relative z-10">
         <motion.p
@@ -49,22 +49,22 @@ export const About = () => {
           About
         </motion.p>
 
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-2 gap-20">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="text-xl text-foreground leading-relaxed mb-6 font-medium">
+            <p className="text-2xl lg:text-3xl text-foreground leading-snug mb-8 font-medium tracking-tight">
               I'm a Software Developer with strong foundations in React and modern JavaScript, 
               combined with solid DSA problem-solving skills.
             </p>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+            <p className="text-lg text-muted-foreground/80 leading-relaxed mb-6">
               I focus on building applications that are both performant and user-friendly.
               My experience spans from creating technical content and learning materials to 
               building real-world applications.
             </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-lg text-muted-foreground/80 leading-relaxed">
               I ship with clarity and take end-to-end ownership of the products I work on.
             </p>
           </motion.div>

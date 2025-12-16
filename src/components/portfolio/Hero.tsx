@@ -89,24 +89,26 @@ export const Hero = () => {
 
           <motion.h1
             variants={itemVariants}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6 text-balance"
+            className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tighter text-foreground mb-4 text-balance leading-[0.9]"
           >
-            Lakshmeepathi Nakka
+            Lakshmeepathi
+            <br />
+            <span className="text-accent">Nakka</span>
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="text-2xl sm:text-3xl text-muted-foreground font-medium mb-6"
+            className="text-xl sm:text-2xl text-muted-foreground/70 font-medium mb-8 tracking-wide"
           >
             Software Developer
           </motion.p>
 
           <motion.p
             variants={itemVariants}
-            className="text-lg text-muted-foreground leading-relaxed max-w-2xl mb-8"
+            className="text-lg text-muted-foreground leading-relaxed max-w-xl mb-10"
           >
             Building scalable, user-centric web applications with React and modern JavaScript. 
-            I combine strong problem-solving skills with product thinking to deliver clean, performant solutions end-to-end.
+            Strong problem-solving meets product thinking.
           </motion.p>
 
           <motion.div

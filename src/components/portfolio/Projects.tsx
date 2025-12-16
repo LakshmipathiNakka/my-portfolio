@@ -30,7 +30,7 @@ export const Projects = () => {
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
 
   return (
-    <section id="projects" className="py-28 relative" ref={ref}>
+    <section id="projects" className="py-32 relative" ref={ref}>
       <div className="section-container">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -46,31 +46,37 @@ export const Projects = () => {
           {projects.map((project, index) => (
             <motion.article
               key={project.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.7, delay: 0.1 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="group relative"
             >
               <motion.div
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.3 }}
-                className="glass-card rounded-2xl p-8 lg:p-10 overflow-hidden"
+                whileHover={{ y: -6, scale: 1.01 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="glass-card rounded-2xl p-8 lg:p-10 overflow-hidden hover:shadow-glow-lg hover:border-accent/20 transition-all duration-500"
               >
                 {/* Gradient overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 
                 <div className="relative z-10">
+                  {/* Problem Statement Badge */}
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-accent/10 text-accent text-xs font-semibold rounded-full mb-6">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+                    Case Study
+                  </div>
+                  
                   {/* Header */}
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
                     <div>
-                      <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
+                      <h3 className="text-2xl lg:text-3xl font-bold text-foreground mb-3 group-hover:text-accent transition-colors duration-300">
                         {project.name}
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {project.tech.map((tech) => (
                           <span
                             key={tech}
-                            className="px-3 py-1 bg-secondary/80 text-secondary-foreground text-xs font-medium rounded-full"
+                            className="px-3 py-1.5 bg-secondary/80 text-secondary-foreground text-xs font-medium rounded-full border border-border/50"
                           >
                             {tech}
                           </span>
@@ -104,18 +110,24 @@ export const Projects = () => {
                     </div>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                    {project.description}
-                  </p>
+                  {/* Problem - The Hook */}
+                  <div className="mb-6">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">The Problem</h4>
+                    <p className="text-lg text-foreground leading-relaxed">
+                      {project.description}
+                    </p>
+                  </div>
 
-                  <p className="text-foreground/80 mb-4">
-                    <span className="font-semibold text-foreground">Role:</span> {project.role}
-                  </p>
+                  {/* Role */}
+                  <div className="mb-6 p-4 bg-secondary/50 rounded-xl border border-border/50">
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">My Role</h4>
+                    <p className="text-foreground/90">{project.role}</p>
+                  </div>
 
                   {project.credentials && (
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-lg mb-6">
-                      <span className="text-sm font-mono text-accent">
+                    <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-accent/10 rounded-xl mb-6 border border-accent/20">
+                      <span className="text-xs font-medium text-accent/70">Demo credentials:</span>
+                      <span className="text-sm font-mono text-accent font-medium">
                         {project.credentials}
                       </span>
                     </div>
