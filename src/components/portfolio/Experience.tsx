@@ -50,7 +50,7 @@ export const Experience = () => {
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-0 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-accent via-border to-transparent" />
+          <div className="absolute left-2 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-accent via-border to-transparent" />
 
           <div className="space-y-12">
             {experiences.map((exp, index) => (
@@ -61,11 +61,11 @@ export const Experience = () => {
                 transition={{ duration: 0.6, delay: 0.1 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className="relative pl-8 md:pl-20"
+                className="relative pl-10 md:pl-20"
               >
                 {/* Timeline dot */}
                 <div className={cn(
-                  "absolute left-0 md:left-8 -translate-x-1/2 w-4 h-4 rounded-full border-2 transition-all duration-300",
+                  "absolute left-2 md:left-8 -translate-x-1/2 w-3 md:w-4 h-3 md:h-4 rounded-full border-2 transition-all duration-300",
                   exp.current 
                     ? "border-accent bg-accent shadow-glow" 
                     : hoveredIndex === index 

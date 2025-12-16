@@ -34,7 +34,7 @@ export const Contact = () => {
     <section id="contact" className="py-28 relative overflow-hidden" ref={ref}>
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 via-transparent to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[200px] sm:h-[300px] bg-accent/5 rounded-full blur-3xl" />
       
       <div className="section-container relative z-10">
         <motion.p
@@ -69,7 +69,7 @@ export const Contact = () => {
             my inbox is always open.
           </motion.p>
 
-          <div className="grid sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {contactLinks.map((link, index) => (
               <motion.a
                 key={link.label}

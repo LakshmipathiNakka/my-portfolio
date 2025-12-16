@@ -54,7 +54,7 @@ export const Projects = () => {
               <motion.div
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.3 }}
-                className="glass-card rounded-2xl p-8 lg:p-10 overflow-hidden"
+                className="glass-card rounded-2xl p-5 sm:p-8 lg:p-10 overflow-hidden"
               >
                 {/* Gradient overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
