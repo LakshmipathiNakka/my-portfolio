@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 const skills = {
@@ -8,49 +7,78 @@ const skills = {
   "Core Strengths": ["Data Structures & Algorithms", "Problem Solving", "System Thinking"],
 };
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut" as const,
+    },
+  },
+};
+
 export const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-24" ref={ref}>
-      <div className="section-container">
+    <section id="about" className="py-28 relative" ref={ref}>
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/30 to-transparent pointer-events-none" />
+      
+      <div className="section-container relative z-10">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="section-heading"
+          className="section-heading flex items-center gap-3"
         >
+          <span className="w-8 h-px bg-accent" />
           About
         </motion.p>
 
         <div className="grid lg:grid-cols-2 gap-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
           >
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+            <p className="text-xl text-foreground leading-relaxed mb-6 font-medium">
               I'm a Software Developer with strong foundations in React and modern JavaScript, 
-              combined with solid DSA problem-solving skills. I focus on building applications 
-              that are both performant and user-friendly.
+              combined with solid DSA problem-solving skills.
+            </p>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              I focus on building applications that are both performant and user-friendly.
+              My experience spans from creating technical content and learning materials to 
+              building real-world applications.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              My experience spans from creating technical content and learning materials to 
-              building real-world applications. I ship with clarity and take end-to-end ownership 
-              of the products I work on.
+              I ship with clarity and take end-to-end ownership of the products I work on.
             </p>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
             className="space-y-8"
           >
             {Object.entries(skills).map(([category, items], categoryIndex) => (
-              <div key={category}>
-                <h3 className="text-sm font-medium text-foreground mb-3">
+              <motion.div key={category} variants={itemVariants}>
+                <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-accent" />
                   {category}
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -63,26 +91,28 @@ export const About = () => {
                         duration: 0.3,
                         delay: 0.3 + categoryIndex * 0.1 + index * 0.05,
                       }}
-                      className="px-3 py-1.5 bg-secondary text-secondary-foreground text-sm font-medium rounded-md"
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      className="px-4 py-2 glass-card text-foreground text-sm font-medium rounded-lg cursor-default hover:border-accent/30 transition-colors"
                     >
                       {skill}
                     </motion.span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
 
-            <div>
-              <a
+            <motion.div variants={itemVariants}>
+              <motion.a
                 href="https://leetcode.com/u/LakshmeepathiNakka/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/80 transition-colors"
+                whileHover={{ x: 4 }}
+                className="inline-flex items-center gap-3 text-sm font-semibold text-accent hover:text-accent-glow transition-colors"
               >
                 <span className="font-mono">LeetCode Profile</span>
-                <span>→</span>
-              </a>
-            </div>
+                <span className="text-lg">→</span>
+              </motion.a>
+            </motion.div>
           </motion.div>
         </div>
       </div>
