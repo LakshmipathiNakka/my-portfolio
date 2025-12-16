@@ -31,7 +31,7 @@ export const Contact = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="contact" className="py-28 relative overflow-hidden" ref={ref}>
+    <section id="contact" className="py-32 relative overflow-hidden" ref={ref}>
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 via-transparent to-transparent pointer-events-none" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-3xl" />
@@ -47,14 +47,15 @@ export const Contact = () => {
           Contact
         </motion.p>
 
-        <div className="max-w-3xl">
+        <div className="max-w-3xl mx-auto text-center">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 text-balance"
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-6 text-balance tracking-tight"
           >
-            Let's build{" "}
+            Let's build
+            <br />
             <span className="text-accent">something.</span>
           </motion.h2>
 
@@ -62,11 +63,10 @@ export const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="text-xl text-muted-foreground leading-relaxed mb-12"
+            className="text-lg text-muted-foreground leading-relaxed mb-12 max-w-xl mx-auto"
           >
-            I'm currently open to new opportunities and collaborations. 
-            Whether you have a project idea, a job opportunity, or just want to say hi — 
-            my inbox is always open.
+            Open to new opportunities and collaborations. 
+            Got a project idea or just want to connect? Let's talk.
           </motion.p>
 
           <div className="grid sm:grid-cols-3 gap-4">
@@ -100,16 +100,22 @@ export const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-12 text-center"
+            className="mt-14"
           >
             <motion.a
               href="mailto:lakshmeepathin184@gmail.com"
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex btn-primary text-lg px-8 py-4"
+              whileHover={{ scale: 1.03, y: -3 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex btn-primary text-lg px-10 py-5 shadow-glow-lg"
             >
               Say Hello
-              <span className="ml-2">👋</span>
+              <motion.span 
+                className="ml-3"
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                →
+              </motion.span>
             </motion.a>
           </motion.div>
         </div>

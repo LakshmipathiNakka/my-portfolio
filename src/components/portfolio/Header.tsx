@@ -72,10 +72,10 @@ export const Header = () => {
                 <a
                   href={item.href}
                   className={cn(
-                    "relative px-4 py-2 text-sm font-medium transition-colors rounded-lg",
+                    "relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg link-underline",
                     activeSection === item.href.slice(1)
                       ? "text-accent"
-                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                      : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   {item.label}
@@ -83,7 +83,7 @@ export const Header = () => {
                     <motion.span
                       layoutId="activeSection"
                       className="absolute inset-0 bg-accent/10 rounded-lg -z-10"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     />
                   )}
                 </a>
