@@ -49,13 +49,13 @@ export const About = () => {
           About
         </motion.p>
 
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
           >
-            <p className="text-xl text-foreground leading-relaxed mb-6 font-medium">
+            <p className="text-lg sm:text-xl text-foreground leading-relaxed mb-6 font-medium">
               I'm a Software Developer with strong foundations in React and modern JavaScript, 
               combined with solid DSA problem-solving skills.
             </p>

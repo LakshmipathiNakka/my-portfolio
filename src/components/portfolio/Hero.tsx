@@ -59,15 +59,15 @@ export const Hero = () => {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           style={{ y }}
-          className="absolute top-20 right-[15%] w-72 h-72 bg-accent/5 rounded-full blur-3xl animate-float"
+          className="absolute top-20 right-[10%] sm:right-[15%] w-48 sm:w-72 h-48 sm:h-72 bg-accent/5 rounded-full blur-3xl animate-float"
         />
         <motion.div
           style={{ y }}
-          className="absolute bottom-32 left-[10%] w-96 h-96 bg-accent/3 rounded-full blur-3xl animate-float-delayed"
+          className="absolute bottom-32 left-[5%] sm:left-[10%] w-64 sm:w-96 h-64 sm:h-96 bg-accent/3 rounded-full blur-3xl animate-float-delayed"
         />
-        <div className="absolute top-1/3 left-[20%] w-4 h-4 bg-accent/30 rounded-full animate-glow" />
+        <div className="absolute top-1/3 left-[15%] sm:left-[20%] w-3 sm:w-4 h-3 sm:h-4 bg-accent/30 rounded-full animate-glow" />
         <div 
-          className="absolute top-1/2 right-[25%] w-3 h-3 bg-accent/20 rounded-full animate-glow"
+          className="absolute top-1/2 right-[20%] sm:right-[25%] w-2 sm:w-3 h-2 sm:h-3 bg-accent/20 rounded-full animate-glow"
           style={{ animationDelay: "1.5s" }}
         />
       </div>
@@ -89,7 +89,7 @@ export const Hero = () => {
 
           <motion.h1
             variants={itemVariants}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6 text-balance"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-4 sm:mb-6 text-balance"
           >
             Lakshmeepathi Nakka
           </motion.h1>
