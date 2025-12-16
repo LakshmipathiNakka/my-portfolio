@@ -42,6 +42,7 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          glow: "hsl(var(--accent-glow))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -66,15 +67,31 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "fade-in": {
-          from: { opacity: "0", transform: "translateY(10px)" },
+        "fade-up": {
+          from: { opacity: "0", transform: "translateY(20px)" },
           to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "scale-in": {
+          from: { opacity: "0", transform: "scale(0.95)" },
+          to: { opacity: "1", transform: "scale(1)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.6s ease-out forwards",
+        "fade-up": "fade-up 0.6s ease-out forwards",
+        "fade-in": "fade-in 0.5s ease-out forwards",
+        "scale-in": "scale-in 0.3s ease-out forwards",
+      },
+      boxShadow: {
+        "glass": "0 4px 24px -4px hsl(var(--glass-shadow)), 0 0 0 1px hsl(var(--glass-border))",
+        "glow": "0 0 40px -8px hsl(var(--accent) / 0.3)",
+        "glow-lg": "0 0 60px -12px hsl(var(--accent) / 0.4)",
+        "card-hover": "0 20px 40px -12px hsl(var(--foreground) / 0.1)",
       },
     },
   },

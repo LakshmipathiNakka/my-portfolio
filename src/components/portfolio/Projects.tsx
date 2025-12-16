@@ -1,7 +1,6 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { ExternalLink, Github } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { ExternalLink, Github, ChevronDown, ChevronUp } from "lucide-react";
 
 const projects = [
   {
@@ -21,22 +20,25 @@ const projects = [
     liveUrl: "https://jobbypathy.ccbp.tech/login",
     githubUrl: "https://github.com/LakshmipathiNakka/jobby-app.git",
     credentials: "Login: rahul / rahul@2021",
+    gradient: "from-orange-500/20 via-amber-500/10 to-transparent",
   },
 ];
 
 export const Projects = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [expandedProject, setExpandedProject] = useState<string | null>(null);
 
   return (
-    <section id="projects" className="py-24 bg-secondary/30" ref={ref}>
+    <section id="projects" className="py-28 relative" ref={ref}>
       <div className="section-container">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="section-heading"
+          className="section-heading flex items-center gap-3"
         >
+          <span className="w-8 h-px bg-accent" />
           Projects
         </motion.p>
 
@@ -44,91 +46,135 @@ export const Projects = () => {
           {projects.map((project, index) => (
             <motion.article
               key={project.name}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-              className="group bg-card rounded-xl p-8 border border-border/50 hover:border-border transition-all hover:shadow-lg"
+              transition={{ duration: 0.6, delay: 0.1 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="group relative"
             >
-              <div className="flex flex-col lg:flex-row lg:items-start gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-4 mb-4">
-                    <h3 className="text-xl font-semibold text-foreground">
-                      {project.name}
-                    </h3>
+              <motion.div
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.3 }}
+                className="glass-card rounded-2xl p-8 lg:p-10 overflow-hidden"
+              >
+                {/* Gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                
+                <div className="relative z-10">
+                  {/* Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                    <div>
+                      <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
+                        {project.name}
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-3 py-1 bg-secondary/80 text-secondary-foreground text-xs font-medium rounded-full"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
                     <div className="flex items-center gap-2">
-                      <a
+                      <motion.a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 text-muted-foreground hover:text-accent hover:bg-secondary rounded transition-all"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="p-3 glass-card rounded-xl text-muted-foreground hover:text-accent transition-colors"
                         aria-label="Live demo"
                       >
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                      <a
+                        <ExternalLink className="w-5 h-5" />
+                      </motion.a>
+                      <motion.a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-1.5 text-muted-foreground hover:text-accent hover:bg-secondary rounded transition-all"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="p-3 glass-card rounded-xl text-muted-foreground hover:text-accent transition-colors"
                         aria-label="GitHub repository"
                       >
-                        <Github className="w-4 h-4" />
-                      </a>
+                        <Github className="w-5 h-5" />
+                      </motion.a>
                     </div>
                   </div>
 
-                  <p className="text-muted-foreground leading-relaxed mb-4">
+                  {/* Description */}
+                  <p className="text-lg text-muted-foreground leading-relaxed mb-4">
                     {project.description}
                   </p>
 
-                  <p className="text-sm text-foreground/80 mb-4">
-                    <span className="font-medium">Role:</span> {project.role}
+                  <p className="text-foreground/80 mb-4">
+                    <span className="font-semibold text-foreground">Role:</span> {project.role}
                   </p>
 
                   {project.credentials && (
-                    <p className="text-sm font-mono text-accent mb-4">
-                      {project.credentials}
-                    </p>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-lg mb-6">
+                      <span className="text-sm font-mono text-accent">
+                        {project.credentials}
+                      </span>
+                    </div>
                   )}
 
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2.5 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                  {/* Expandable Details */}
+                  <motion.button
+                    onClick={() => setExpandedProject(expandedProject === project.name ? null : project.name)}
+                    className="flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-glow transition-colors mb-4"
+                  >
+                    {expandedProject === project.name ? "Hide details" : "Show details"}
+                    {expandedProject === project.name ? (
+                      <ChevronUp className="w-4 h-4" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
+                  </motion.button>
 
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-medium text-foreground">
-                      Key Technical Decisions
-                    </h4>
-                    <ul className="space-y-2">
-                      {project.decisions.map((decision, i) => (
-                        <li
-                          key={i}
-                          className="text-sm text-muted-foreground flex items-start gap-2"
-                        >
-                          <span className="text-accent mt-1.5">•</span>
-                          {decision}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      height: expandedProject === project.name ? "auto" : 0,
+                      opacity: expandedProject === project.name ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="space-y-6 pt-4 border-t border-border/50">
+                      <div>
+                        <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-accent" />
+                          Key Technical Decisions
+                        </h4>
+                        <ul className="space-y-2">
+                          {project.decisions.map((decision, i) => (
+                            <li
+                              key={i}
+                              className="text-sm text-muted-foreground flex items-start gap-3"
+                            >
+                              <span className="text-accent mt-0.5">→</span>
+                              {decision}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
 
-                  <div className="mt-6 pt-6 border-t border-border/50">
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-medium text-foreground">
-                        Outcomes:
-                      </span>{" "}
-                      {project.outcomes}
-                    </p>
-                  </div>
+                      <div className="pt-4 border-t border-border/30">
+                        <h4 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-accent" />
+                          Outcomes
+                        </h4>
+                        <p className="text-sm text-muted-foreground">
+                          {project.outcomes}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             </motion.article>
           ))}
         </div>
