@@ -32,21 +32,26 @@ export const Contact = () => {
     isBrandCollab: false,
   });
 
+  const isFormValid = formData.name.trim() && formData.email.trim() && formData.message.trim();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isFormValid) return;
     setFormStatus("submitting");
 
     try {
-      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+      const response = await fetch("https://formspree.io/f/mrbnneky", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           message: formData.message,
           brandCollaboration: formData.isBrandCollab ? "Yes" : "No",
+          subject: "New message from portfolio",
         }),
       });
 
@@ -251,10 +256,10 @@ export const Contact = () => {
 
                       <motion.button
                         type="submit"
-                        disabled={formStatus === "submitting"}
-                        whileHover={formStatus !== "submitting" ? { y: -2 } : {}}
-                        whileTap={formStatus !== "submitting" ? { scale: 0.98 } : {}}
-                        className="w-full btn-primary py-3.5 text-base font-medium disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
+                        disabled={formStatus === "submitting" || !isFormValid}
+                        whileHover={formStatus !== "submitting" && isFormValid ? { y: -2 } : {}}
+                        whileTap={formStatus !== "submitting" && isFormValid ? { scale: 0.98 } : {}}
+                        className="w-full btn-primary py-3.5 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group transition-opacity"
                       >
                         {formStatus === "submitting" ? (
                           <>
