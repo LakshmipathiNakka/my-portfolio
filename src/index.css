@@ -189,7 +189,7 @@
     text-wrap: balance;
   }
 
-  /* Animation utilities */
+  /* Animation utilities - decorative only */
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
@@ -219,5 +219,23 @@
     50% {
       opacity: 0.8;
     }
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-float,
+  .animate-float-delayed,
+  .animate-glow {
+    animation: none !important;
   }
 }
