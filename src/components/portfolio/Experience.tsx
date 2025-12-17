@@ -1,6 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { ReadMoreText } from "@/components/ui/ReadMoreText";
 
 const experiences = [
   {
@@ -36,7 +37,7 @@ export const Experience = () => {
     <section id="experience" className="py-28 relative" ref={ref}>
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/30 to-transparent pointer-events-none" />
-      
+
       <div className="section-container relative z-10">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -66,9 +67,9 @@ export const Experience = () => {
                 {/* Timeline dot */}
                 <div className={cn(
                   "absolute left-2 md:left-8 -translate-x-1/2 w-3 md:w-4 h-3 md:h-4 rounded-full border-2 transition-all duration-300",
-                  exp.current 
-                    ? "border-accent bg-accent shadow-glow" 
-                    : hoveredIndex === index 
+                  exp.current
+                    ? "border-accent bg-accent shadow-glow"
+                    : hoveredIndex === index
                       ? "border-accent bg-accent/20"
                       : "border-border bg-background"
                 )}>
@@ -107,9 +108,9 @@ export const Experience = () => {
                     </span>
                   </div>
 
-                  <p className="text-muted-foreground leading-relaxed mb-4">
-                    {exp.description}
-                  </p>
+                  <div className="mb-4">
+                    <ReadMoreText text={exp.description} mobileTruncateLength={100} />
+                  </div>
 
                   {exp.highlights.length > 0 && (
                     <ul className="space-y-3">

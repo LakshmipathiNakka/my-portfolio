@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { ReadMoreText } from "@/components/ui/ReadMoreText";
 
 const skills = {
   "Frontend": ["HTML", "CSS", "JavaScript", "React.js"],
@@ -37,7 +38,7 @@ export const About = () => {
     <section id="about" className="py-28 relative" ref={ref}>
       {/* Subtle background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/30 to-transparent pointer-events-none" />
-      
+
       <div className="section-container relative z-10">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -56,17 +57,15 @@ export const About = () => {
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
           >
             <p className="text-lg sm:text-xl text-foreground leading-relaxed mb-6 font-medium">
-              I'm a Software Developer with strong foundations in React and modern JavaScript, 
+              I'm a Software Developer with strong foundations in React and modern JavaScript,
               combined with solid DSA problem-solving skills.
             </p>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              I focus on building applications that are both performant and user-friendly.
-              My experience spans from creating technical content and learning materials to 
-              building real-world applications.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              I ship with clarity and take end-to-end ownership of the products I work on.
-            </p>
+            <div className="text-lg text-muted-foreground leading-relaxed mb-6">
+              <ReadMoreText
+                text="I focus on building applications that are both performant and user-friendly. My experience spans from creating technical content and learning materials to building real-world applications. I ship with clarity and take end-to-end ownership of the products I work on."
+                mobileTruncateLength={120}
+              />
+            </div>
           </motion.div>
 
           <motion.div

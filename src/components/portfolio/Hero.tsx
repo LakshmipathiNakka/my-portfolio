@@ -66,22 +66,23 @@ export const Hero = () => {
           className="absolute bottom-32 left-[5%] sm:left-[10%] w-64 sm:w-96 h-64 sm:h-96 bg-accent/3 rounded-full blur-3xl animate-float-delayed"
         />
         <div className="absolute top-1/3 left-[15%] sm:left-[20%] w-3 sm:w-4 h-3 sm:h-4 bg-accent/30 rounded-full animate-glow" />
-        <div 
+        <div
           className="absolute top-1/2 right-[20%] sm:right-[25%] w-2 sm:w-3 h-2 sm:h-3 bg-accent/20 rounded-full animate-glow"
           style={{ animationDelay: "1.5s" }}
         />
       </div>
 
-      <motion.div style={{ opacity }} className="section-container py-20 relative z-10">
+      <motion.div style={{ opacity }} className="section-container relative z-10 flex flex-col md:flex-row items-center justify-center md:justify-between gap-12 md:gap-16 py-20 min-h-[calc(100vh-80px)]">
+        {/* Text Content */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-3xl"
+          className="flex-1 max-w-2xl text-center md:text-left order-2 md:order-1"
         >
           <motion.p
             variants={itemVariants}
-            className="text-accent font-mono text-sm mb-4 flex items-center gap-2"
+            className="text-accent font-mono text-sm mb-4 flex items-center justify-center md:justify-start gap-2"
           >
             <span className="w-8 h-px bg-accent" />
             Hi, I'm
@@ -89,7 +90,7 @@ export const Hero = () => {
 
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-4 sm:mb-6 text-balance"
+            className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4 sm:mb-6 text-balance"
           >
             Lakshmeepathi Nakka
           </motion.h1>
@@ -101,17 +102,19 @@ export const Hero = () => {
             Software Developer
           </motion.p>
 
-          <motion.p
+          <motion.div
             variants={itemVariants}
-            className="text-lg text-muted-foreground leading-relaxed max-w-2xl mb-8"
+            className="text-lg text-muted-foreground leading-relaxed mb-8 mx-auto md:mx-0 max-w-2xl"
           >
-            Building scalable, user-centric web applications with React and modern JavaScript. 
-            I combine strong problem-solving skills with product thinking to deliver clean, performant solutions end-to-end.
-          </motion.p>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-8 mx-auto md:mx-0 max-w-2xl">
+              Building scalable, user-centric web applications with React and modern JavaScript.
+              I combine strong problem-solving skills with product thinking to deliver clean, performant solutions end-to-end.
+            </p>
+          </motion.div>
 
           <motion.div
             variants={itemVariants}
-            className="flex items-center gap-4 mb-10"
+            className="flex items-center justify-center md:justify-start gap-4 mb-10"
           >
             <span className="flex items-center gap-2 text-sm text-muted-foreground">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -125,7 +128,7 @@ export const Hero = () => {
 
           <motion.div
             variants={itemVariants}
-            className="flex flex-wrap items-center gap-4"
+            className="flex flex-wrap items-center justify-center md:justify-start gap-4"
           >
             {socialLinks.map((link) => (
               <motion.a
@@ -141,7 +144,7 @@ export const Hero = () => {
                 <link.icon className="w-5 h-5" />
               </motion.a>
             ))}
-            
+
             <motion.a
               href="https://drive.google.com/file/d/1ZXYWUoqHLpEvyBY4Nxhg0ggETjzpALPj/view"
               target="_blank"
@@ -154,6 +157,25 @@ export const Hero = () => {
               <span className="text-accent">→</span>
             </motion.a>
           </motion.div>
+        </motion.div>
+
+        {/* Profile Image */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+          className="order-1 md:order-2 flex-shrink-0"
+        >
+          <div className="relative group">
+            <div className="absolute inset-0 bg-accent/20 rounded-[24px] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
+            <motion.img
+              src="/profile.jpg"
+              alt="Lakshmeepathi Nakka"
+              className="relative w-40 h-40 md:w-80 md:h-80 object-cover rounded-[24px] shadow-2xl border border-accent/10"
+              whileHover={{ scale: 1.02 }} // Minimal meaningful interaction, essentially no-zoom as requested but keeping slight interactivity
+              transition={{ duration: 0.5 }}
+            />
+          </div>
         </motion.div>
       </motion.div>
 
