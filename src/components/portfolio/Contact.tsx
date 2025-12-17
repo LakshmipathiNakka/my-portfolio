@@ -21,10 +21,22 @@ const contactLinks = [
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
+interface FormErrors {
+  name?: string;
+  email?: string;
+  message?: string;
+}
+
+const validateEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 export const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [formStatus, setFormStatus] = useState<FormStatus>("idle");
+  const [touched, setTouched] = useState({ name: false, email: false, message: false });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,10 +44,34 @@ export const Contact = () => {
     isBrandCollab: false,
   });
 
-  const isFormValid = formData.name.trim() && formData.email.trim() && formData.message.trim();
+  const getErrors = (): FormErrors => {
+    const errors: FormErrors = {};
+    if (touched.name && !formData.name.trim()) {
+      errors.name = "Name is required";
+    }
+    if (touched.email) {
+      if (!formData.email.trim()) {
+        errors.email = "Email is required";
+      } else if (!validateEmail(formData.email)) {
+        errors.email = "Please enter a valid email";
+      }
+    }
+    if (touched.message && !formData.message.trim()) {
+      errors.message = "Message is required";
+    }
+    return errors;
+  };
+
+  const errors = getErrors();
+  const isFormValid = formData.name.trim() && formData.email.trim() && validateEmail(formData.email) && formData.message.trim();
+
+  const handleBlur = (field: keyof typeof touched) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setTouched({ name: true, email: true, message: true });
     if (!isFormValid) return;
     setFormStatus("submitting");
 
@@ -44,12 +80,12 @@ export const Contact = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
           brandCollaboration: formData.isBrandCollab ? "Yes" : "No",
           subject: "New message from portfolio",
         }),
@@ -58,6 +94,7 @@ export const Contact = () => {
       if (response.ok) {
         setFormStatus("success");
         setFormData({ name: "", email: "", message: "", isBrandCollab: false });
+        setTouched({ name: false, email: false, message: false });
       } else {
         setFormStatus("error");
       }
@@ -66,9 +103,7 @@ export const Contact = () => {
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -85,7 +120,7 @@ export const Contact = () => {
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 via-transparent to-transparent pointer-events-none" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[400px] sm:max-w-[600px] h-[150px] sm:h-[300px] bg-accent/5 rounded-full blur-3xl" />
-      
+
       <div className="section-container relative z-10">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -101,17 +136,16 @@ export const Contact = () => {
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
             className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 text-center"
           >
-            Let's build{" "}
-            <span className="text-accent">something together.</span>
+            Let's build <span className="text-accent">something together.</span>
           </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="text-lg sm:text-xl text-muted-foreground text-center mb-10 sm:mb-14 max-w-2xl mx-auto"
           >
             Have a project, idea, or collaboration in mind? Drop a message and I'll get back to you.
@@ -122,7 +156,7 @@ export const Contact = () => {
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               className="lg:col-span-3"
             >
               <div className="glass-card rounded-2xl p-6 sm:p-8">
@@ -166,66 +200,103 @@ export const Contact = () => {
                       onSubmit={handleSubmit}
                       className="space-y-5"
                     >
+                      {/* Name field */}
                       <div>
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-foreground mb-2"
-                        >
+                        <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
                           Name <span className="text-accent">*</span>
                         </label>
                         <input
                           type="text"
                           id="name"
                           name="name"
-                          required
                           value={formData.name}
                           onChange={handleInputChange}
+                          onBlur={() => handleBlur("name")}
                           disabled={formStatus === "submitting"}
-                          className="w-full px-4 py-3 rounded-xl bg-background/50 border border-border/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/50 transition-all duration-200 disabled:opacity-50"
+                          className={`w-full px-4 py-3 rounded-xl bg-background/50 border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all duration-200 disabled:opacity-50 ${
+                            errors.name ? "border-destructive/50 focus:border-destructive" : "border-border/50 focus:border-accent/50"
+                          }`}
                           placeholder="Your name"
                         />
+                        <AnimatePresence>
+                          {errors.name && (
+                            <motion.p
+                              initial={{ opacity: 0, y: -5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -5 }}
+                              className="text-xs text-destructive mt-1.5"
+                            >
+                              {errors.name}
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
                       </div>
 
+                      {/* Email field */}
                       <div>
-                        <label
-                          htmlFor="email"
-                          className="block text-sm font-medium text-foreground mb-2"
-                        >
+                        <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
                           Email <span className="text-accent">*</span>
                         </label>
                         <input
                           type="email"
                           id="email"
                           name="email"
-                          required
                           value={formData.email}
                           onChange={handleInputChange}
+                          onBlur={() => handleBlur("email")}
                           disabled={formStatus === "submitting"}
-                          className="w-full px-4 py-3 rounded-xl bg-background/50 border border-border/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/50 transition-all duration-200 disabled:opacity-50"
+                          className={`w-full px-4 py-3 rounded-xl bg-background/50 border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all duration-200 disabled:opacity-50 ${
+                            errors.email ? "border-destructive/50 focus:border-destructive" : "border-border/50 focus:border-accent/50"
+                          }`}
                           placeholder="you@example.com"
                         />
+                        <AnimatePresence>
+                          {errors.email && (
+                            <motion.p
+                              initial={{ opacity: 0, y: -5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -5 }}
+                              className="text-xs text-destructive mt-1.5"
+                            >
+                              {errors.email}
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
                       </div>
 
+                      {/* Message field */}
                       <div>
-                        <label
-                          htmlFor="message"
-                          className="block text-sm font-medium text-foreground mb-2"
-                        >
+                        <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
                           Message <span className="text-accent">*</span>
                         </label>
                         <textarea
                           id="message"
                           name="message"
-                          required
                           rows={5}
                           value={formData.message}
                           onChange={handleInputChange}
+                          onBlur={() => handleBlur("message")}
                           disabled={formStatus === "submitting"}
-                          className="w-full px-4 py-3 rounded-xl bg-background/50 border border-border/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent/50 transition-all duration-200 resize-none disabled:opacity-50"
+                          className={`w-full px-4 py-3 rounded-xl bg-background/50 border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all duration-200 resize-none disabled:opacity-50 ${
+                            errors.message ? "border-destructive/50 focus:border-destructive" : "border-border/50 focus:border-accent/50"
+                          }`}
                           placeholder="Tell me about your project or idea..."
                         />
+                        <AnimatePresence>
+                          {errors.message && (
+                            <motion.p
+                              initial={{ opacity: 0, y: -5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -5 }}
+                              className="text-xs text-destructive mt-1.5"
+                            >
+                              {errors.message}
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
                       </div>
 
+                      {/* Brand collab checkbox */}
                       <div className="flex items-start gap-3">
                         <input
                           type="checkbox"
@@ -236,14 +307,12 @@ export const Contact = () => {
                           disabled={formStatus === "submitting"}
                           className="mt-1 w-4 h-4 rounded border-border/50 text-accent focus:ring-accent/30 focus:ring-2 bg-background/50 cursor-pointer disabled:opacity-50"
                         />
-                        <label
-                          htmlFor="isBrandCollab"
-                          className="text-sm text-muted-foreground cursor-pointer"
-                        >
+                        <label htmlFor="isBrandCollab" className="text-sm text-muted-foreground cursor-pointer">
                           This is regarding a brand collaboration
                         </label>
                       </div>
 
+                      {/* Server error */}
                       {formStatus === "error" && (
                         <motion.p
                           initial={{ opacity: 0, y: -10 }}
@@ -254,6 +323,7 @@ export const Contact = () => {
                         </motion.p>
                       )}
 
+                      {/* Submit button */}
                       <motion.button
                         type="submit"
                         disabled={formStatus === "submitting" || !isFormValid}
@@ -283,7 +353,7 @@ export const Contact = () => {
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
               className="lg:col-span-2 flex flex-col gap-4"
             >
               <div className="glass-card rounded-2xl p-6 flex-1">
@@ -293,7 +363,7 @@ export const Contact = () => {
                   </div>
                   <span className="text-sm text-muted-foreground">Prefer email?</span>
                 </div>
-                <p className="text-foreground font-medium text-sm sm:text-base break-all">
+                <p className="text-foreground font-medium text-sm sm:text-base">
                   Reach out directly and I'll respond within 24 hours.
                 </p>
               </div>
@@ -309,7 +379,7 @@ export const Contact = () => {
                   transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                   whileHover={{ y: -3, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="group glass-card rounded-2xl p-5 hover:border-accent/30 hover:shadow-glow transition-all duration-300"
+                  className="group glass-card rounded-2xl p-5 hover:border-accent/30 hover:shadow-[0_10px_30px_-10px_hsl(var(--accent)/0.2)] transition-all duration-300"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -323,7 +393,7 @@ export const Contact = () => {
                         </p>
                       </div>
                     </div>
-                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-all duration-300 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-all duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </div>
                 </motion.a>
               ))}
