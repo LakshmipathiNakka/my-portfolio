@@ -38,7 +38,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   },
 };
@@ -191,7 +191,7 @@ export const Hero = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
           className="order-1 md:order-2 flex-shrink-0"
         >
           <div className="relative">
@@ -213,7 +213,7 @@ export const Hero = () => {
         transition={{
           delay: 1.5,
           duration: 0.6,
-          ease: [0.22, 1, 0.36, 1]
+          ease: [0.22, 1, 0.36, 1] as const
         }}
         whileHover={{ y: 2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 p-3 glass-card rounded-full text-muted-foreground hover:text-accent transition-colors group"
