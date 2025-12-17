@@ -1,4 +1,4 @@
-import { Header, Hero, About, Projects, Experience, Certifications, Contact, Footer } from "@/components/portfolio";
+import { Header, Hero, About, Skills, Projects, Experience, Certifications, Contact, Footer } from "@/components/portfolio";
 
 const Index = () => {
   return (
@@ -7,6 +7,7 @@ const Index = () => {
       <main>
         <Hero />
         <About />
+        <Skills />
         <Projects />
         <Experience />
         <Certifications />
