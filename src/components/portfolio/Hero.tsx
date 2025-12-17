@@ -25,20 +25,20 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.3,
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: "easeOut" as const,
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1],
     },
   },
 };
@@ -90,14 +90,14 @@ export const Hero = () => {
 
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-4 sm:mb-6 text-balance"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground mb-6 text-balance leading-[1.1]"
           >
             Lakshmeepathi Nakka
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="text-2xl sm:text-3xl text-muted-foreground font-medium mb-6"
+            className="text-xl sm:text-2xl md:text-3xl text-muted-foreground font-medium mb-6"
           >
             Software Developer
           </motion.p>
@@ -128,52 +128,79 @@ export const Hero = () => {
 
           <motion.div
             variants={itemVariants}
-            className="flex flex-wrap items-center justify-center md:justify-start gap-4"
+            className="flex flex-col sm:flex-row items-center md:items-start gap-4"
           >
-            {socialLinks.map((link) => (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 text-muted-foreground hover:text-accent glass-card rounded-xl transition-colors"
-                aria-label={link.label}
-              >
-                <link.icon className="w-5 h-5" />
-              </motion.a>
-            ))}
-
             <motion.a
-              href="https://drive.google.com/file/d/1ZXYWUoqHLpEvyBY4Nxhg0ggETjzpALPj/view"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.02 }}
+              href="#contact"
+              whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="ml-2 px-5 py-3 glass-card rounded-xl text-sm font-medium text-foreground hover:text-accent transition-colors flex items-center gap-2"
+              className="btn-primary px-8 py-4 text-base font-semibold group"
             >
-              View Resume
-              <span className="text-accent">→</span>
+              Let's build something
+              <motion.span
+                className="inline-block ml-2"
+                initial={{ x: 0 }}
+                whileHover={{ x: 4 }}
+                transition={{ duration: 0.2 }}
+              >
+                →
+              </motion.span>
             </motion.a>
+
+            <div className="flex items-center gap-3">
+              {socialLinks.map((link, index) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.8 + index * 0.1, duration: 0.3 }}
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="p-3 text-muted-foreground hover:text-accent glass-card rounded-xl transition-colors"
+                  aria-label={link.label}
+                >
+                  <link.icon className="w-5 h-5" />
+                </motion.a>
+              ))}
+            </div>
           </motion.div>
+
+          <motion.a
+            variants={itemVariants}
+            href="https://drive.google.com/file/d/1ZXYWUoqHLpEvyBY4Nxhg0ggETjzpALPj/view"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-accent transition-colors mt-4 group"
+          >
+            <span>View Resume</span>
+            <motion.span
+              initial={{ x: 0 }}
+              whileHover={{ x: 4 }}
+              transition={{ duration: 0.2 }}
+              className="text-accent"
+            >
+              →
+            </motion.span>
+          </motion.a>
         </motion.div>
 
         {/* Profile Image */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="order-1 md:order-2 flex-shrink-0"
         >
-          <div className="relative group">
-            <div className="absolute inset-0 bg-accent/20 rounded-[24px] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
-            <motion.img
+          <div className="relative">
+            <div className="absolute -inset-4 bg-accent/20 rounded-[32px] blur-3xl opacity-40" />
+            <div className="absolute -inset-2 bg-gradient-to-tr from-accent/30 via-accent/10 to-transparent rounded-[28px] blur-xl opacity-60" />
+            <img
               src="/profile.jpg"
               alt="Lakshmeepathi Nakka"
-              className="relative w-40 h-40 md:w-80 md:h-80 object-cover rounded-[24px] shadow-2xl border border-accent/10"
-              whileHover={{ scale: 1.02 }} // Minimal meaningful interaction, essentially no-zoom as requested but keeping slight interactivity
-              transition={{ duration: 0.5 }}
+              className="relative w-48 h-48 md:w-[22rem] md:h-[22rem] lg:w-96 lg:h-96 object-cover rounded-[24px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border border-accent/20"
             />
           </div>
         </motion.div>
@@ -181,13 +208,27 @@ export const Hero = () => {
 
       <motion.a
         href="#about"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 p-3 glass-card rounded-full text-muted-foreground hover:text-accent transition-colors"
+        transition={{
+          delay: 1.5,
+          duration: 0.6,
+          ease: [0.22, 1, 0.36, 1]
+        }}
+        whileHover={{ y: 2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 p-3 glass-card rounded-full text-muted-foreground hover:text-accent transition-colors group"
         aria-label="Scroll to about section"
       >
-        <ArrowDown className="w-5 h-5 animate-bounce" />
+        <motion.div
+          animate={{ y: [0, 4, 0] }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <ArrowDown className="w-5 h-5" />
+        </motion.div>
       </motion.a>
     </section>
   );
