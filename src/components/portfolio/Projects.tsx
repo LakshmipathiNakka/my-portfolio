@@ -1,89 +1,103 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import { ExternalLink, Github, ChevronDown, ChevronUp } from "lucide-react";
-import { ReadMoreText } from "@/components/ui/ReadMoreText";
+import { ExternalLink, Github, ChevronDown, Zap } from "lucide-react";
 
 const projects = [
   {
     name: "Nxt Watch",
+    tagline: "Video streaming platform",
     description:
-      "A video streaming platform inspired by YouTube that allows users to authenticate, browse trending and gaming videos, search content, save videos, view detailed video pages, and toggle between light and dark themes.",
-    role: "Owned the frontend development end-to-end, including authentication flow, routing, theme management, API integration, and responsive UI design.",
-    tech: ["React", "JavaScript", "CSS", "REST APIs", "React Router"],
-    decisions: [
-      "Implemented protected routes to restrict access to authenticated users",
-      "Built multiple video sections including Trending, Gaming, and Saved Videos",
-      "Integrated search functionality with REST API-driven results",
-      "Designed a theme toggle to support Light and Dark modes across the app",
-      "Created detailed video view pages with consistent state handling",
-    ],
-    outcomes:
-      "Strengthened skills in building multi-route React applications, managing global UI state (theme & saved videos), and delivering a feature-rich, user-centric frontend experience.",
-    liveUrl: "https://nxtwatchpathy.ccbp.tech/login",
-    githubUrl: "https://github.com/LakshmipathiNakka/NXT-watch.git",
-    credentials: "username: robert / password: WilsonRobert45",
-    gradient: "from-red-500/20 via-rose-500/10 to-transparent",
-  },
-  {
-    name: "Nxt Trendz – Cart Features",
-    description:
-      "An e-commerce application that allows authenticated users to add products to a cart, manage quantities, view cart summaries, and remove items with real-time updates.",
-    role: "Owned the frontend implementation end-to-end, including global state management, cart logic, protected routing, and responsive UI behavior.",
-    tech: ["React", "JavaScript", "CSS", "Context API", "REST APIs"],
-    decisions: [
-      "Implemented global cart state using React Context API",
-      "Handled quantity-based cart logic to avoid duplicate items",
-      "Built protected routes for authenticated cart access",
-      "Dynamically calculated total items and total cost",
-      "Designed responsive cart and summary layouts",
-    ],
-    outcomes:
-      "Strengthened understanding of global state management, e-commerce cart behavior, edge-case handling, and building predictable, state-driven UI in React.",
-    liveUrl: "https://nxttrendspathy.ccbp.tech/login",
-    githubUrl: "https://github.com/LakshmipathiNakka/NXT-trends-app.git",
-    credentials: "Prime: rahul / rahul@2021 | Non-Prime: raja / raja@2021",
-    gradient: "from-blue-500/20 via-cyan-500/10 to-transparent",
-  },
-  {
-    name: "Jobby Application",
-    description:
-      "A job search platform that allows users to securely log in, explore job opportunities, and filter results based on salary range and employment type.",
-    role: "Owned the frontend development end-to-end, from component design to API integration and state management.",
+      "A YouTube-inspired platform with authentication, video browsing, search, saved videos, and theme toggle.",
     tech: ["React", "JavaScript", "CSS", "REST APIs"],
     decisions: [
-      "Built modular, reusable React components for login, job listings, and job detail views",
-      "Implemented client-side storage to persist authentication state",
-      "Managed API calls and authorization flow for protected routes",
-      "Designed responsive layouts for seamless experience across devices",
+      "Protected routes for authenticated users",
+      "Multi-section video browsing (Trending, Gaming, Saved)",
+      "Search with REST API integration",
+      "Light/Dark theme toggle",
     ],
-    outcomes:
-      "Strengthened understanding of React component architecture, authentication flows, and translating product requirements into scalable UI components.",
+    outcome: "Multi-route React apps with global UI state management.",
+    liveUrl: "https://nxtwatchpathy.ccbp.tech/login",
+    githubUrl: "https://github.com/LakshmipathiNakka/NXT-watch.git",
+    credentials: "rahul / rahul@2021",
+    accentColor: "from-red-500 to-rose-600",
+  },
+  {
+    name: "Nxt Trendz",
+    tagline: "E-commerce cart system",
+    description:
+      "Full cart functionality with quantity management, real-time updates, and protected checkout flow.",
+    tech: ["React", "Context API", "CSS", "REST APIs"],
+    decisions: [
+      "Global cart state with Context API",
+      "Quantity-based logic to prevent duplicates",
+      "Dynamic total calculation",
+      "Protected routes for cart access",
+    ],
+    outcome: "Global state management and e-commerce cart patterns.",
+    liveUrl: "https://nxttrendspathy.ccbp.tech/login",
+    githubUrl: "https://github.com/LakshmipathiNakka/NXT-trends-app.git",
+    credentials: "rahul / rahul@2021",
+    accentColor: "from-blue-500 to-cyan-500",
+  },
+  {
+    name: "Jobby App",
+    tagline: "Job search platform",
+    description:
+      "Job search with secure login, filters for salary range and employment type, and detailed job views.",
+    tech: ["React", "JavaScript", "CSS", "REST APIs"],
+    decisions: [
+      "Modular, reusable components",
+      "Client-side auth persistence",
+      "Protected route architecture",
+      "Responsive cross-device layouts",
+    ],
+    outcome: "Authentication flows and scalable component architecture.",
     liveUrl: "https://jobbypathy.ccbp.tech/login",
     githubUrl: "https://github.com/LakshmipathiNakka/jobby-app.git",
-    credentials: "Login: rahul / rahul@2021",
-    gradient: "from-orange-500/20 via-amber-500/10 to-transparent",
+    credentials: "rahul / rahul@2021",
+    accentColor: "from-orange-500 to-amber-500",
   },
   {
     name: "IPL Dashboard",
+    tagline: "Sports analytics dashboard",
     description:
-      "An interactive IPL Dashboard that enables users to track team performance, view recent form, and explore match results using dynamic, route-based navigation.",
-    role: "Owned the frontend development end-to-end, including routing architecture, component design, data fetching, and error handling.",
-    tech: ["React", "React Router", "JavaScript", "CSS", "REST APIs"],
+      "Interactive IPL tracker with team performance, match results, and dynamic route-based navigation.",
+    tech: ["React", "React Router", "JavaScript", "REST APIs"],
     decisions: [
-      "Implemented client-side routing using React Router (Route, Switch, Link)",
-      "Designed separate routes for the home dashboard and individual team detail pages",
-      "Fetched team and match data asynchronously using REST APIs",
-      "Used team IDs as path parameters to load dynamic match information",
-      "Added a 404 Not Found route to gracefully handle invalid URLs",
+      "Client-side routing with React Router",
+      "Dynamic routes with path parameters",
+      "Async data fetching for teams/matches",
+      "404 handling for invalid URLs",
     ],
-    outcomes:
-      "Strengthened understanding of React Router, dynamic routing, asynchronous data handling, and building structured single-page applications with clean navigation.",
+    outcome: "Dynamic routing and structured SPA navigation.",
     liveUrl: "https://iplbypathy.ccbp.tech/",
     githubUrl: "https://github.com/LakshmipathiNakka/ipl-Dashboard-App",
     credentials: "",
-    gradient: "from-purple-500/20 via-pink-500/10 to-transparent",
+    accentColor: "from-purple-500 to-pink-500",
   },
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
 
 export const Projects = () => {
   const ref = useRef(null);
@@ -97,148 +111,146 @@ export const Projects = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="section-heading flex items-center gap-3"
+          className="section-heading flex items-center gap-3 mb-12"
         >
           <span className="w-8 h-px bg-accent" />
           Projects
         </motion.p>
 
-        <div className="space-y-8">
-          {projects.map((project, index) => (
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="grid md:grid-cols-2 gap-6"
+        >
+          {projects.map((project) => (
             <motion.article
               key={project.name}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 + index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              variants={cardVariants}
+              whileHover={{ y: -8, scale: 1.02 }}
+              transition={{ duration: 0.3 }}
               className="group relative"
             >
-              <motion.div
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.3 }}
-                className="glass-card rounded-2xl p-5 sm:p-8 lg:p-10 overflow-hidden"
-              >
-                {/* Gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-                <div className="relative z-10">
+              <div className="glass-card rounded-2xl overflow-hidden h-full flex flex-col transition-shadow duration-300 group-hover:shadow-[0_20px_50px_-12px_hsl(var(--accent)/0.25)]">
+                {/* Gradient header */}
+                <div className={`h-2 bg-gradient-to-r ${project.accentColor}`} />
+                
+                <div className="p-6 sm:p-8 flex flex-col flex-1">
                   {/* Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
-                    <div>
-                      <h3 className="text-2xl font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-accent transition-colors">
                         {project.name}
                       </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1 bg-secondary/80 text-secondary-foreground text-xs font-medium rounded-full"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
+                      <p className="text-sm text-muted-foreground">{project.tagline}</p>
                     </div>
-
                     <div className="flex items-center gap-2">
                       <motion.a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1 }}
+                        whileHover={{ scale: 1.15, rotate: 5 }}
                         whileTap={{ scale: 0.95 }}
-                        className="p-3 glass-card rounded-xl text-muted-foreground hover:text-accent transition-colors"
+                        className="p-2.5 bg-secondary/80 rounded-xl text-muted-foreground hover:text-accent hover:bg-accent/10 transition-colors"
                         aria-label="Live demo"
                       >
-                        <ExternalLink className="w-5 h-5" />
+                        <ExternalLink className="w-4 h-4" />
                       </motion.a>
                       <motion.a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1 }}
+                        whileHover={{ scale: 1.15, rotate: -5 }}
                         whileTap={{ scale: 0.95 }}
-                        className="p-3 glass-card rounded-xl text-muted-foreground hover:text-accent transition-colors"
+                        className="p-2.5 bg-secondary/80 rounded-xl text-muted-foreground hover:text-accent hover:bg-accent/10 transition-colors"
                         aria-label="GitHub repository"
                       >
-                        <Github className="w-5 h-5" />
+                        <Github className="w-4 h-4" />
                       </motion.a>
                     </div>
                   </div>
 
-                  {/* Description */}
-                  <div className="mb-4">
-                    <ReadMoreText text={project.description} mobileTruncateLength={100} />
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tech.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-1 bg-secondary/60 text-foreground/80 text-xs font-medium rounded-md"
+                      >
+                        {tech}
+                      </span>
+                    ))}
                   </div>
 
-                  <p className="text-foreground/80 mb-4">
-                    <span className="font-semibold text-foreground">Role:</span> {project.role}
+                  {/* Description */}
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-1">
+                    {project.description}
                   </p>
 
+                  {/* Credentials */}
                   {project.credentials && (
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-lg mb-6">
-                      <span className="text-sm font-mono text-accent">
-                        {project.credentials}
-                      </span>
+                    <div className="flex items-center gap-2 px-3 py-2 bg-accent/5 border border-accent/20 rounded-lg mb-4">
+                      <span className="text-xs font-mono text-accent">{project.credentials}</span>
                     </div>
                   )}
 
-                  {/* Expandable Details */}
-                  <motion.button
-                    onClick={() => setExpandedProject(expandedProject === project.name ? null : project.name)}
-                    className="flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-glow transition-colors mb-4"
-                  >
-                    {expandedProject === project.name ? "Hide details" : "Show details"}
-                    {expandedProject === project.name ? (
-                      <ChevronUp className="w-4 h-4" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4" />
-                    )}
-                  </motion.button>
+                  {/* Expandable section */}
+                  <div className="mt-auto">
+                    <motion.button
+                      onClick={() => setExpandedProject(expandedProject === project.name ? null : project.name)}
+                      className="flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-glow transition-colors w-full justify-between py-2"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Zap className="w-4 h-4" />
+                        Technical decisions
+                      </span>
+                      <motion.span
+                        animate={{ rotate: expandedProject === project.name ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </motion.span>
+                    </motion.button>
 
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      height: expandedProject === project.name ? "auto" : 0,
-                      opacity: expandedProject === project.name ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <div className="space-y-6 pt-4 border-t border-border/50">
-                      <div>
-                        <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-accent" />
-                          Key Technical Decisions
-                        </h4>
-                        <ul className="space-y-2">
-                          {project.decisions.map((decision, i) => (
-                            <li
-                              key={i}
-                              className="text-sm text-muted-foreground flex items-start gap-3"
-                            >
-                              <span className="text-accent mt-0.5">→</span>
-                              {decision}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="pt-4 border-t border-border/30">
-                        <h4 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-accent" />
-                          Outcomes
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          {project.outcomes}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
+                    <AnimatePresence>
+                      {expandedProject === project.name && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pt-4 border-t border-border/50 space-y-4">
+                            <ul className="space-y-2">
+                              {project.decisions.map((decision, i) => (
+                                <motion.li
+                                  key={i}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: i * 0.05 }}
+                                  className="text-sm text-muted-foreground flex items-start gap-2"
+                                >
+                                  <span className="text-accent mt-0.5">→</span>
+                                  {decision}
+                                </motion.li>
+                              ))}
+                            </ul>
+                            <div className="pt-3 border-t border-border/30">
+                              <p className="text-xs text-foreground/70">
+                                <span className="font-semibold text-foreground">Outcome:</span> {project.outcome}
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
-              </motion.div>
+              </div>
             </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
