@@ -20,12 +20,6 @@ const highlights = [
   },
 ];
 
-const skills = {
-  Frontend: ["HTML", "CSS", "JavaScript", "React.js"],
-  Languages: ["C++", "Python", "SQL"],
-  "Core Strengths": ["Data Structures & Algorithms", "Problem Solving", "System Thinking"],
-};
-
 export const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -60,7 +54,7 @@ export const About = () => {
         </motion.p>
 
         {/* Highlights */}
-        <div className="grid sm:grid-cols-3 gap-6 mb-16">
+        <div className="grid sm:grid-cols-3 gap-6">
           {highlights.map((item, index) => (
             <motion.div
               key={item.title}
@@ -80,54 +74,6 @@ export const About = () => {
             </motion.div>
           ))}
         </div>
-
-        {/* Skills */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
-          className="space-y-8"
-        >
-          {Object.entries(skills).map(([category, items], categoryIndex) => (
-            <div key={category}>
-              <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-accent" />
-                {category}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {items.map((skill, index) => (
-                  <motion.span
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{
-                      duration: 0.3,
-                      delay: 0.6 + categoryIndex * 0.1 + index * 0.05,
-                    }}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    className="px-4 py-2 glass-card text-foreground text-sm font-medium rounded-lg cursor-default hover:border-accent/30 transition-colors"
-                  >
-                    {skill}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-          ))}
-
-          <motion.a
-            href="https://leetcode.com/u/LakshmeepathiNakka/"
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            whileHover={{ x: 4 }}
-            className="inline-flex items-center gap-3 text-sm font-semibold text-accent hover:text-accent-glow transition-colors"
-          >
-            <span className="font-mono">LeetCode Profile</span>
-            <span className="text-lg">→</span>
-          </motion.a>
-        </motion.div>
       </div>
     </section>
   );
