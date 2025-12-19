@@ -1,23 +1,19 @@
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, Linkedin, Github, ArrowUpRight, Send, CheckCircle, Loader2 } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAPWithCleanup } from "@/hooks/useGSAP";
+import { getAnimationConfig } from "@/lib/motionPreferences";
+import { easings, durations, staggers } from "@/lib/gsapAnimations";
+import { BlurText } from "@/components/ui/blur-text";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { AbstractNodes } from "@/components/ui/VectorAssets";
 
-const contactLinks = [
-  {
-    label: "LinkedIn",
-    value: "lakshmeepathinakka",
-    href: "https://www.linkedin.com/in/lakshmeepathinakka/",
-    icon: Linkedin,
-    description: "Let's connect",
-  },
-  {
-    label: "GitHub",
-    value: "LakshmipathiNakka",
-    href: "https://github.com/LakshmipathiNakka",
-    icon: Github,
-    description: "Check my code",
-  },
-];
+// Register ScrollTrigger
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
@@ -34,7 +30,13 @@ const validateEmail = (email: string) => {
 
 export const Contact = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const sectionRef = useRef(null);
+  const headingRef = useRef(null);
+  const titleRef = useRef(null);
+  const descRef = useRef(null);
+  const formRef = useRef(null);
+  const animConfig = getAnimationConfig();
+
   const [formStatus, setFormStatus] = useState<FormStatus>("idle");
   const [touched, setTouched] = useState({ name: false, email: false, message: false });
   const [formData, setFormData] = useState({
@@ -43,6 +45,68 @@ export const Contact = () => {
     message: "",
     isBrandCollab: false,
   });
+
+  // GSAP scroll-triggered animations
+  useGSAPWithCleanup(() => {
+    if (!sectionRef.current) return;
+
+    // Animate title (heading handled by BlurText)
+    if (titleRef.current) {
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, y: 40 * animConfig.distanceMultiplier },
+        {
+          opacity: 1,
+          y: 0,
+          duration: durations.medium,
+          ease: easings.smooth,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            once: true,
+          },
+        }
+      );
+    }
+
+    // Animate description
+    if (descRef.current) {
+      gsap.fromTo(
+        descRef.current,
+        { opacity: 0, y: 30 * animConfig.distanceMultiplier },
+        {
+          opacity: 1,
+          y: 0,
+          duration: durations.medium,
+          ease: easings.smooth,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+            once: true,
+          },
+        }
+      );
+    }
+
+    // Animate form
+    if (formRef.current) {
+      gsap.fromTo(
+        formRef.current,
+        { opacity: 0, y: 50 * animConfig.distanceMultiplier },
+        {
+          opacity: 1,
+          y: 0,
+          duration: durations.slow,
+          ease: easings.smooth,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 65%",
+            once: true,
+          },
+        }
+      );
+    }
+  }, []);
 
   const getErrors = (): FormErrors => {
     const errors: FormErrors = {};
@@ -121,43 +185,43 @@ export const Contact = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 via-transparent to-transparent pointer-events-none" />
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[400px] sm:max-w-[600px] h-[150px] sm:h-[300px] bg-accent/5 rounded-full blur-3xl" />
 
-      <div className="section-container relative z-10">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="section-heading flex items-center gap-3"
-        >
+      {/* Background Vector */}
+      <div className="absolute left-10 top-1/4 w-64 h-64 opacity-10 pointer-events-none hidden lg:block">
+        <AbstractNodes className="text-accent" />
+      </div>
+
+      <div className="section-container relative z-10" ref={sectionRef}>
+        <div className="section-heading flex items-center gap-3">
           <span className="w-8 h-px bg-accent" />
-          Contact
-        </motion.p>
+          <BlurText
+            text="Contact"
+            as="span"
+            className="text-sm font-medium uppercase tracking-wider text-accent"
+            delay={0}
+            duration={0.8}
+          />
+        </div>
 
         <div className="max-w-4xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          <h2
+            ref={titleRef}
             className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 text-center"
           >
             Let's build <span className="text-accent">something together.</span>
-          </motion.h2>
+          </h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          <ScrollReveal
+            as="p"
             className="text-lg sm:text-xl text-muted-foreground text-center mb-10 sm:mb-14 max-w-2xl mx-auto"
           >
             Have a project, idea, or collaboration in mind? Drop a message and I'll get back to you.
-          </motion.p>
+          </ScrollReveal>
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+          <div className="flex justify-center">
             {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-              className="lg:col-span-3"
+            <div
+              ref={formRef}
+              className="w-full max-w-2xl"
             >
               <div className="glass-card rounded-2xl p-6 sm:p-8">
                 <AnimatePresence mode="wait">
@@ -213,9 +277,8 @@ export const Contact = () => {
                           onChange={handleInputChange}
                           onBlur={() => handleBlur("name")}
                           disabled={formStatus === "submitting"}
-                          className={`w-full px-4 py-3 rounded-xl bg-background/50 border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all duration-200 disabled:opacity-50 ${
-                            errors.name ? "border-destructive/50 focus:border-destructive" : "border-border/50 focus:border-accent/50"
-                          }`}
+                          className={`w-full px-4 py-3 rounded-xl bg-background/50 border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all duration-200 disabled:opacity-50 ${errors.name ? "border-destructive/50 focus:border-destructive" : "border-border/50 focus:border-accent/50"
+                            }`}
                           placeholder="Your name"
                         />
                         <AnimatePresence>
@@ -245,9 +308,8 @@ export const Contact = () => {
                           onChange={handleInputChange}
                           onBlur={() => handleBlur("email")}
                           disabled={formStatus === "submitting"}
-                          className={`w-full px-4 py-3 rounded-xl bg-background/50 border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all duration-200 disabled:opacity-50 ${
-                            errors.email ? "border-destructive/50 focus:border-destructive" : "border-border/50 focus:border-accent/50"
-                          }`}
+                          className={`w-full px-4 py-3 rounded-xl bg-background/50 border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all duration-200 disabled:opacity-50 ${errors.email ? "border-destructive/50 focus:border-destructive" : "border-border/50 focus:border-accent/50"
+                            }`}
                           placeholder="you@example.com"
                         />
                         <AnimatePresence>
@@ -277,9 +339,8 @@ export const Contact = () => {
                           onChange={handleInputChange}
                           onBlur={() => handleBlur("message")}
                           disabled={formStatus === "submitting"}
-                          className={`w-full px-4 py-3 rounded-xl bg-background/50 border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all duration-200 resize-none disabled:opacity-50 ${
-                            errors.message ? "border-destructive/50 focus:border-destructive" : "border-border/50 focus:border-accent/50"
-                          }`}
+                          className={`w-full px-4 py-3 rounded-xl bg-background/50 border text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all duration-200 resize-none disabled:opacity-50 ${errors.message ? "border-destructive/50 focus:border-destructive" : "border-border/50 focus:border-accent/50"
+                            }`}
                           placeholder="Tell me about your project or idea..."
                         />
                         <AnimatePresence>
@@ -347,57 +408,7 @@ export const Contact = () => {
                   )}
                 </AnimatePresence>
               </div>
-            </motion.div>
-
-            {/* Side Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-              className="lg:col-span-2 flex flex-col gap-4"
-            >
-              <div className="glass-card rounded-2xl p-6 flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2.5 bg-accent/10 rounded-xl">
-                    <Mail className="w-5 h-5 text-accent" />
-                  </div>
-                  <span className="text-sm text-muted-foreground">Prefer email?</span>
-                </div>
-                <p className="text-foreground font-medium text-sm sm:text-base">
-                  Reach out directly and I'll respond within 24 hours.
-                </p>
-              </div>
-
-              {contactLinks.map((link, index) => (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                  whileHover={{ y: -3, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="group glass-card rounded-2xl p-5 hover:border-accent/30 hover:shadow-[0_10px_30px_-10px_hsl(var(--accent)/0.2)] transition-all duration-300"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-accent/10 rounded-xl group-hover:bg-accent/20 transition-colors">
-                        <link.icon className="w-5 h-5 text-accent" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">{link.description}</p>
-                        <p className="text-foreground font-medium group-hover:text-accent transition-colors">
-                          {link.label}
-                        </p>
-                      </div>
-                    </div>
-                    <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-accent transition-all duration-200 transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                  </div>
-                </motion.a>
-              ))}
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

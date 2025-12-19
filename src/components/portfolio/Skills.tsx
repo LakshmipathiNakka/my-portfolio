@@ -80,13 +80,13 @@ export const Skills = () => {
                   <motion.div
                     className="w-16 h-16 sm:w-20 sm:h-20 glass-card rounded-2xl flex items-center justify-center transition-shadow duration-300"
                     style={{
-                      boxShadow: hoveredSkill === skill.name 
-                        ? `0 8px 30px -8px ${skill.color}40` 
+                      boxShadow: hoveredSkill === skill.name
+                        ? `0 8px 30px -8px ${skill.color}40`
                         : undefined,
                     }}
                   >
-                    <Icon 
-                      icon={skill.icon} 
+                    <Icon
+                      icon={skill.icon}
                       className="w-8 h-8 sm:w-10 sm:h-10"
                     />
                   </motion.div>

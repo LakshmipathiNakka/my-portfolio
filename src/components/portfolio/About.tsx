@@ -1,6 +1,9 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Target, Lightbulb, Rocket } from "lucide-react";
+import { BlurText } from "@/components/ui/blur-text";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { LogicFlow } from "@/components/ui/VectorAssets";
 
 const highlights = [
   {
@@ -29,6 +32,11 @@ export const About = () => {
       {/* Subtle background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/30 to-transparent pointer-events-none" />
 
+      {/* Conceptual Vector */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-96 h-96 opacity-20 pointer-events-none hidden lg:block">
+        <LogicFlow className="text-accent" />
+      </div>
+
       <div className="section-container relative z-10">
         {/* Section heading */}
         <motion.p
@@ -42,16 +50,12 @@ export const About = () => {
         </motion.p>
 
         {/* Strong paragraph */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-          className="text-xl sm:text-2xl text-foreground leading-relaxed max-w-3xl mb-16 font-medium"
+        <ScrollReveal
+          as="p"
+          className="text-lg text-muted-foreground leading-relaxed max-w-3xl mb-16"
         >
-          I build products that work—fast, clean, and user-first. With strong foundations in 
-          React and modern JavaScript, I combine technical depth with product thinking to 
-          deliver solutions that matter.
-        </motion.p>
+          I'm a software developer focused on building web applications that solve real problems. With expertise in React and modern JavaScript, I turn complex requirements into clean, maintainable code that users actually enjoy using.
+        </ScrollReveal>
 
         {/* Highlights */}
         <div className="grid sm:grid-cols-3 gap-6">

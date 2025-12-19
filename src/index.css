@@ -94,6 +94,22 @@
     scroll-behavior: smooth;
   }
 
+  /* Smooth theme transitions */
+  html,
+  html *,
+  html *::before,
+  html *::after {
+    transition-property: background-color, background, color, border-color, box-shadow, fill, stroke;
+    transition-duration: 500ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Preserve specific animations and interactions */
+  html [class*="animate-"],
+  html [class*="transition-"] {
+    transition-duration: inherit;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
@@ -137,7 +153,7 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid hsl(var(--glass-border));
-    box-shadow: 
+    box-shadow:
       0 4px 24px -4px hsl(var(--glass-shadow)),
       0 0 0 1px hsl(var(--glass-border));
   }
@@ -145,40 +161,37 @@
   .glass-card::before {
     content: '';
     @apply absolute inset-0 pointer-events-none;
-    background: linear-gradient(
-      135deg,
-      hsl(0 0% 100% / 0.1) 0%,
-      hsl(0 0% 100% / 0.05) 50%,
-      transparent 100%
-    );
+    background: linear-gradient(135deg,
+        hsl(0 0% 100% / 0.1) 0%,
+        hsl(0 0% 100% / 0.05) 50%,
+        transparent 100%);
   }
 
   /* Premium button */
   .btn-primary {
     @apply relative px-6 py-3 bg-accent text-accent-foreground font-medium rounded-lg overflow-hidden transition-all duration-300;
-    box-shadow: 
+    box-shadow:
       0 4px 14px -4px hsl(var(--accent) / 0.4),
       inset 0 1px 0 hsl(0 0% 100% / 0.2);
   }
 
   .btn-primary:hover {
     @apply transform -translate-y-0.5;
-    box-shadow: 
+    box-shadow:
+      0 0 20px 2px hsl(var(--accent) / 0.4),
       0 8px 20px -4px hsl(var(--accent) / 0.5),
       inset 0 1px 0 hsl(0 0% 100% / 0.2);
   }
 
   /* Subtle gradient backgrounds */
   .bg-gradient-subtle {
-    background: linear-gradient(
-      180deg,
-      hsl(var(--background)) 0%,
-      hsl(var(--secondary) / 0.5) 100%
-    );
+    background: linear-gradient(180deg,
+        hsl(var(--background)) 0%,
+        hsl(var(--secondary) / 0.5) 100%);
   }
 
   .bg-gradient-hero {
-    background: 
+    background:
       radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--accent) / 0.08) 0%, transparent 50%),
       linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--secondary) / 0.3) 100%);
   }
@@ -203,19 +216,85 @@
     animation: glow 3s ease-in-out infinite;
   }
 
+  .shiny-text {
+    background: linear-gradient(120deg,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0) 60%);
+    background-size: 200% 100%;
+    animation: shine 5s linear infinite;
+  }
+
+  /* Specific color handling for shiny text to allow background-clip: text */
+  .shiny-text:not(.disabled) {
+    background-image: linear-gradient(120deg,
+        hsl(var(--muted-foreground)) 30%,
+        hsl(var(--foreground)) 50%,
+        hsl(var(--muted-foreground)) 70%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .dark .shiny-text:not(.disabled) {
+    background-image: linear-gradient(120deg,
+        hsl(var(--muted-foreground) / 0.5) 30%,
+        hsl(var(--foreground)) 50%,
+        hsl(var(--muted-foreground) / 0.5) 70%);
+  }
+
+  .home-many-more {
+    @apply text-sm font-medium transition-all duration-300;
+    background: linear-gradient(90deg,
+        hsl(var(--muted-foreground)),
+        hsl(var(--accent)),
+        hsl(var(--muted-foreground)));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite;
+  }
+
+  .home-many-more:hover {
+    @apply scale-105;
+    background: linear-gradient(90deg,
+        hsl(var(--accent)),
+        hsl(var(--accent-glow)),
+        hsl(var(--accent)));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: 100%;
+    }
+
+    100% {
+      background-position: -100%;
+    }
+  }
+
   @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
       transform: translateY(0px) rotate(0deg);
     }
+
     50% {
       transform: translateY(-20px) rotate(2deg);
     }
   }
 
   @keyframes glow {
-    0%, 100% {
+
+    0%,
+    100% {
       opacity: 0.4;
     }
+
     50% {
       opacity: 0.8;
     }
@@ -224,15 +303,24 @@
 
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
+
+  /* Reduce theme transition duration significantly */
+  html,
+  html *,
+  html *::before,
+  html *::after {
+    transition-duration: 50ms !important;
+  }
+
+  /* Disable decorative animations */
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   .animate-float,
   .animate-float-delayed,
   .animate-glow {
